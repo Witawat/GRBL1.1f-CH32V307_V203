@@ -5,8 +5,8 @@ title GRBL - Build
 :: ============================================================
 ::  Select MCU Config — EDIT THIS ONE LINE TO SWITCH MCU
 :: ============================================================
-call "%~dp0mcu_config_CH32V307.bat"
-::call "%~dp0mcu_config_CH32V203.bat"
+::call "%~dp0mcu_config_CH32V307.bat"
+call "%~dp0mcu_config_CH32V203.bat"
 
 :: ============================================================
 set PROJECT_ROOT=%~dp0..
