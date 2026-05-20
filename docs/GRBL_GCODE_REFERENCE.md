@@ -1,7 +1,8 @@
 # GRBL 1.1f — ข้อมูลเวอร์ชันและคำสั่งที่รองรับ
 
-> **โปรเจค**: 6-AXIS-CH32V307-GRBL  
-> **MCU**: CH32V307 (RISC-V, 144MHz, FPU)  
+> **โปรเจค**: GRBL1.1f-CH32V307_V203  
+> **MCU**: CH32V307 / CH32V203RBT6 (RISC-V, 144MHz)  
+> **GitHub**: [Witawat/GRBL1.1f-CH32V307_V203](https://github.com/Witawat/GRBL1.1f-CH32V307_V203)  
 > **อัปเดตล่าสุด**: 20 พฤษภาคม 2569
 
 ---
@@ -15,7 +16,7 @@
 | **Base** | GRBL 1.1f โดย Sungeun K. Jeon (Gnea Research LLC) |
 | **License** | GPLv3 |
 | **Multi-axis extensions** | โดย YSV (22-06-2018) |
-| **CH32V307 Port** | Custom — เพิ่ม `cpu_map.h` + conditional defines สำหรับ CH32V307 |
+| **CH32V307/V203 Port** | Custom — เพิ่ม `cpu_map.h` + conditional defines สำหรับ CH32V307 และ CH32V203RBT6 |
 
 ### GRBL รุ่นล่าสุด
 
@@ -344,6 +345,7 @@
 | Dual Motor Gantry | ❌ | ❌ | ❌ | ✅ |
 | 30kHz Step Rate | ✅ | ✅ | ✅ | ✅ |
 | 6-Axis (CH32V307) | ❌ | ❌ | ✅ | ❌ |
+| Dual MCU Support | ❌ | ❌ | ✅ | ❌ |
 
 ---
 
@@ -354,8 +356,9 @@
 - **GRBL Releases**: https://github.com/gnea/grbl/releases
 - **grblHAL** (รุ่นที่พัฒนาต่อ): https://github.com/grblHAL
 - **G-code Reference**: https://github.com/gnea/grbl/wiki/G-Code
+- **โปรเจคนี้**: https://github.com/Witawat/GRBL1.1f-CH32V307_V203
 
 ---
 
 > **Last Updated**: 20 พฤษภาคม 2569  
-> **Based on**: GRBL 1.1f Build 20230112 (gnea/grbl) + CH32V307 Multi-Axis Extensions
+> **Based on**: GRBL 1.1f Build 20230112 (gnea/grbl) + CH32V307/CH32V203RBT6 Multi-Axis Extensions

@@ -1,5 +1,8 @@
 # GRBL 1.1f — Migration to CH32V203RBT6 (3-Axis CNC)
 
+> **สถานะ**: ✅ Migration เสร็จสมบูรณ์ — Build ผ่านทั้ง CH32V307 และ CH32V203RBT6  
+> **อัปเดตล่าสุด**: 20 พฤษภาคม 2569
+
 ## 📋 Summary
 
 | Item | Original | New Target |
@@ -111,22 +114,19 @@
 ## 🔧 Build Instructions
 
 ### Prerequisites
-1. **WCH CH32V203 EVT SDK** — Download from [WCH website](https://www.wch.cn/downloads/)
-2. **MounRiver Studio** or **RISC-V GCC toolchain** (riscv-none-embed-gcc)
+1. **MounRiver Studio 2.0** — ติดตั้งที่ `C:\MounRiver\MounRiver_Studio2\` (มาพร้อม RISC-V GCC toolchain)
+2. ไฟล์ V20x SDK มีอยู่ใน `mcu/CH32V203RBT6/sdk/` แล้ว — **ไม่ต้องดาวน์โหลดเพิ่ม**
 
-### Steps
-1. Create a new MounRiver project for CH32V203RBT6
-2. Copy all files from `grbl/` and `app/` into the project
-3. **Copy V20x peripheral library files** into the project:
-   - `ch32v20x_*.c` and `ch32v20x_*.h` from WCH EVT SDK
-   - `system_ch32v20x.c` and `system_ch32v20x.h` (replace V30x system files)
-   - `ch32v20x_it.c` and `ch32v20x_it.h` (interrupt handlers)
-4. Copy `ld/Link.ld` (already updated for 128K/64K)
-5. Verify `#define CH32V203_RBT6_3AXIS` is defined in compile flags (or in config.h)
-6. **Disable USB initially** by commenting `#define USEUSB` in main.c to save flash
-7. Build and flash
+### Steps (ใช้ Batch Scripts — วิธีที่ง่ายที่สุด)
+1. เปิด `scripts/build.bat` — เปลี่ยนเป็น:
+   ```batch
+   ::call "%~dp0mcu_config_CH32V307.bat"
+   call "%~dp0mcu_config_CH32V203.bat"
+   ```
+2. รัน `scripts\build.bat`
+3. Build สำเร็จ — ได้ไฟล์ `output\GRBL_CH32V203.hex`
 
-### Compiler Flags
+### Compiler Flags (ตั้งค่าใน mcu_config_CH32V203.bat แล้ว)
 ```
 -DCH32V203_RBT6_3AXIS
 -march=rv32imac -mabi=ilp32
@@ -176,10 +176,8 @@
 
 ---
 
-## 🔄 Rollback to Original V307
+## 🔄 สลับกลับไปใช้ CH32V307
 
-To restore original CH32V307 6-axis configuration:
-1. In `config.h`: Change `#define CH32V203_RBT6_3AXIS` → `#define ABC_AXIS_EXAMPLE`
-2. Uncomment `#define AB_AXIS` (or `AA_AXIS` / `ABC_AXIS`)
-3. In `ld/Link.ld`: Restore original memory sizes (168K/128K, ORIGIN 0x00006000)
-4. Use original WCH V30x SDK files
+เปลี่ยนกลับเป็น CH32V307 6-axis:
+1. ใน `scripts/build.bat`: เปลี่ยนกลับเป็น `call "%~dp0mcu_config_CH32V307.bat"`
+2. Build ใหม่ — config ทั้งหมดกลับเป็นค่าเดิมอัตโนมัติ
