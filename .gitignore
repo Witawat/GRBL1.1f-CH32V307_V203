@@ -45,3 +45,6 @@ Thumbs.db
 *.swo
 *~
 *.WK3
+
+# Ignore all files in the current directory
+.qoder/
