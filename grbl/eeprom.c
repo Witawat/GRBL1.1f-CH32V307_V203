@@ -39,17 +39,17 @@
 #define EEPROM_IGNORE_SELFPROG //!< Remove SPM flag polling.
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 #include <string.h>
 
 #include "settings.h"
 #endif
 
-#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 unsigned char EE_Buffer[0x400];
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 
 #define PAGE_SIZE                  4096
 #define EEPROM_START_ADDRESS            ((uint32_t)0x0800F000) /* Start from 60K */
@@ -140,7 +140,7 @@ unsigned char eeprom_get_char( unsigned int addr )
 	EECR = (1<<EERE); // Start EEPROM read operation.
 	return EEDR; // Return the byte read from EEPROM.
 #endif
-#if defined(CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	return EE_Buffer[addr];
 #endif
 }
@@ -215,7 +215,7 @@ void eeprom_put_char( unsigned int addr, unsigned char new_value )
 	
 	sei(); // Restore interrupt flag state.
 #endif
-#if defined(CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	EE_Buffer[addr] = new_value;
 #endif
 }
@@ -231,7 +231,7 @@ void memcpy_to_eeprom_with_checksum(unsigned int destination, char *source, unsi
     eeprom_put_char(destination++, *(source++)); 
   }
   eeprom_put_char(destination, checksum);
-#if defined(CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 #ifndef NOEEPROMSUPPORT
   eeprom_flush();
 #endif

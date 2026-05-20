@@ -1,0 +1,47 @@
+# Build artifacts
+obj/
+output/
+*.o
+*.d
+*.elf
+*.hex
+*.map
+*.lst
+*.siz
+*.bin
+build.log
+
+# IDE project files (MounRiver Studio)
+*.brk
+*.prj
+*.IAB
+*.IAD
+*.IMB
+*.IMD
+*.PFI
+*.PO
+*.PR
+*.PRI
+*.PS
+*.SearchResults
+*.WK3
+.project
+.cproject
+.metadata/
+.settings/
+.classpath
+.template
+
+# mrs
+.mrs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.bak
+*.swp
+*.swo
+*~
+*.WK3

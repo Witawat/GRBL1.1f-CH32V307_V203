@@ -83,7 +83,7 @@ void print_uint8_base10(uint8_t n)
 
 // Prints an uint8 variable in base 2 with desired number of desired digits.
 void print_uint8_base2_ndigit(uint8_t n, uint8_t digits) {
-#if defined(AVRTARGET) || defined(CH32V307)
+#if defined(AVRTARGET) || defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	unsigned char buf[digits];
 #endif
   uint8_t i = 0;

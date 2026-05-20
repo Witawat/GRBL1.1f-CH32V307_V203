@@ -36,7 +36,8 @@
 // one configuration file by placing their specific defaults and pin map at the bottom of this file.
 // If doing so, simply comment out these two defines and see instructions below.
 //#define DEFAULTS_GENERIC
-#define ABC_AXIS_EXAMPLE
+#define ABC_AXIS_EXAMPLE        // Original CH32V307 6-axis map
+//#define CH32V203_RBT6_3AXIS       // CH32V203RBT6 LQFP64 3-axis CNC (use for V203 migration)
 
 #ifdef AVRTARGET
 #define CPU_MAP_ATMEGA328P // Arduino Uno CPU
@@ -46,14 +47,11 @@
 //************************************************************************************************************
 // NONE GRBL 1.1f SETTINGS!:
 //************************************************************************************************************
-// Additional axis
-//#define AA_AXIS // Disabled by default. Uncomment to enable.
-// Don't use high step rate with B and C axis. Less than 80kHz recommended
-#define AB_AXIS  // Disabled by default. Uncomment to enable.
-// CAUTION! C axis use SWD (PA13, PA14). After first flashing you can flash controller only with
-// "under reset" option and with reset pin connected to the programmer!
-// Don't use it if not sure!
-//#define ABC_AXIS
+// Axis configuration: Standard 3-axis CNC (X, Y, Z only)
+// For CH32V203RBT6_3AXIS, only 3 axes are supported
+//#define AA_AXIS // 4 axes (X,Y,Z,A)
+//#define AB_AXIS  // 5 axes (X,Y,Z,A,B)
+//#define ABC_AXIS // 6 axes (X,Y,Z,A,B,C)  CAUTION: C axis uses SWD pins!
 
 // In some cases after the Enable signal, it takes some time to wake up the stepper motor drivers.
 // Otherwise, some of the primary step signals may be skipped by drivers hardware

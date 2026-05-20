@@ -27,7 +27,7 @@
 
 
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 #include "debug.h"
 
 #define PSTR(x) x
@@ -89,7 +89,7 @@ typedef int bool;
 #endif
 #endif
 
-#if defined(CH32V307) && defined(USE_SPINDLE_DIR_AS_ENABLE_PIN)
+#if (defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)) && defined(USE_SPINDLE_DIR_AS_ENABLE_PIN)
   #error "USE_SPINDLE_DIR_AS_ENABLE_PIN may only be used with AVRTARGET config"
 #endif
 
@@ -133,7 +133,7 @@ typedef int bool;
 // ---------------------------------------------------------------------------------------
 // COMPILE-TIME ERROR CHECKING OF DEFINE VALUES:
 
-#if defined(ABC_AXIS) && defined(CH32V307)
+#if defined(ABC_AXIS) && (defined(CH32V307) || defined(CH32V203_RBT6_3AXIS))
   #warning "CAUTION!!! C AXIS USE SWD (PA13, PA14). AFTER FIRST FLASHING YOU CAN FLASH CONTROLLER ONLY WITH 'UNDER RESET' OPTION AND WITH RESET PIN CONNECTED TO THE PROGRAMMER!!! DON'T USE IT IF NOT SURE!"
 #endif
 

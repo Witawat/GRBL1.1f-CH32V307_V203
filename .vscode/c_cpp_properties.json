@@ -1,0 +1,26 @@
+{
+  "configurations": [
+    {
+      "name": "MounRiver Studio Build",
+      "includePath": [
+        "${workspaceFolder}/grbl",
+        "${workspaceFolder}/mcu/CH32V307",
+        "${workspaceFolder}/mcu/CH32V307/sdk/Core",
+        "${workspaceFolder}/mcu/CH32V307/sdk/Debug",
+        "${workspaceFolder}/mcu/CH32V307/sdk/Peripheral/inc"
+      ],
+      "defines": [
+        "_DEBUG",
+        "CH32V307",
+        "CH32V30x",
+        "ABC_AXIS_EXAMPLE",
+        "AB_AXIS"
+      ],
+      "intelliSenseMode": "linux-gcc-arm",
+      "compilerPath": "C:/MounRiver/MounRiver_Studio2/resources/app/resources/win32/components/WCH/Toolchain/RISC-V Embedded GCC/bin/riscv-none-embed-gcc.exe",
+      "cStandard": "gnu99",
+      "cppStandard": "gnu++11"
+    }
+  ],
+  "version": 4
+}

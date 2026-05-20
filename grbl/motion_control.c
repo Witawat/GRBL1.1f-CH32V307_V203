@@ -248,7 +248,7 @@ void mc_homing_cycle(uint8_t cycle_mask)
   plan_sync_position();
 
   // If hard limits feature enabled, re-enable hard limits pin change register after homing cycle.
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 // --- YSV 22-06-2018
 	#if defined AA_AXIS
 	EXTI_ClearITPendingBit((1 << X_LIMIT_BIT) | (1 << Y_LIMIT_BIT) | (1 << Z_LIMIT_BIT) | (1 << A_LIMIT_BIT));

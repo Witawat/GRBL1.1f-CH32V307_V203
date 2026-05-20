@@ -22,7 +22,7 @@
 #include "grbl.h"
 
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 typedef int bool;
 void TIM_Configuration(TIM_TypeDef* TIMER, u16 Period, u16 Prescaler, u8 PP);
 #endif
@@ -166,7 +166,7 @@ typedef struct {
   #endif
 // ---
   #ifdef STEP_PULSE_DELAY
-    #ifdef CH32V307
+    #if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
  	uint16_t step_bits;  // Stores out_bits output to complete the step pulse delay
 	#else
  	uint8_t step_bits;  // Stores out_bits output to complete the step pulse delay
@@ -321,7 +321,7 @@ void st_wake_up()
     // Set step pulse time. Ad hoc computation from oscilloscope. Uses two's complement.
   st.step_pulse_time = -(((settings.pulse_microseconds - 2)*TICKS_PER_MICROSECOND) >> 3);
   #endif
-#elif defined(CH32V307)
+#elif defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	#ifdef STEP_PULSE_DELAY
     TIM3->SR = ~TIM_SR_CC1IF; // clear CC1IF flag
 	TIM3->CCR1 = (STEP_PULSE_DELAY - 1) * TICKS_PER_MICROSECOND + 1; //+1 for STEP_PULSE_DELAY=1, -1 to be closer to exact delay
@@ -337,7 +337,7 @@ void st_wake_up()
   TIMSK1 |= (1<<OCIE1A);
 #endif
 
-#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   TIM3->ATRLR = st.step_pulse_time; // don't subtract 1!
   TIM3->SWEVGR = TIM_PSCReloadMode_Immediate;
   TIM3->INTFR = ~TIM_UIF;
@@ -362,7 +362,7 @@ void st_go_idle()
   TCCR1B = (TCCR1B & ~((1<<CS12) | (1<<CS11))) | (1<<CS10); // Reset clock to no prescaling.
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   TIM2->CTLR1 &= ~TIM_CEN;
   TIM2->CNT = 0;
 #endif
@@ -437,7 +437,7 @@ void st_go_idle()
 // TODO: Replace direct updating of the int32 position counters in the ISR somehow. Perhaps use smaller
 // int8 variables and update position counters only when a segment completes. This can get complicated
 // with probing and homing cycles that require true real-time positions.
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 void TIM2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void TIM2_IRQHandler(void)
 #endif
@@ -446,7 +446,7 @@ ISR(TIMER1_COMPA_vect)
 #endif
 
 {
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	if ((TIM2->INTFR & TIM_UIF) != 0)                  // check interrupt source
 	{
 		TIM2->INTFR = ~TIM_UIF; // clear UIF flag
@@ -463,7 +463,7 @@ ISR(TIMER1_COMPA_vect)
   // Set the direction pins a couple of nanoseconds before we step the steppers
   DIRECTION_PORT = (DIRECTION_PORT & ~DIRECTION_MASK) | (st.dir_outbits & DIRECTION_MASK);
 #endif
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   //GPIO_Write(DIRECTION_PORT, (GPIO_ReadOutputData(DIRECTION_PORT) & ~DIRECTION_MASK) | (st.dir_outbits & DIRECTION_MASK));
   DIRECTION_PORT->OUTDR = ((DIRECTION_PORT->OUTDR & ~DIRECTION_MASK) | (st.dir_outbits & DIRECTION_MASK));
   TIM3->INTFR = ~( TIM_UIF | TIM_CC1IF);
@@ -478,7 +478,7 @@ ISR(TIMER1_COMPA_vect)
     STEP_PORT = (STEP_PORT & ~STEP_MASK) | st.step_outbits;
   #endif
 #endif
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
     // Then pulse the stepping pins
     #ifdef STEP_PULSE_DELAY
       st.step_bits = st.step_outbits; // Store out_bits to prevent overwriting.
@@ -496,7 +496,7 @@ ISR(TIMER1_COMPA_vect)
   TCCR0B = (1<<CS01); // Begin Timer0. Full speed, 1/8 prescaler
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   TIM3->CTLR1 |= TIM_CEN;
 #endif
   busy = true;
@@ -524,7 +524,7 @@ ISR(TIMER1_COMPA_vect)
       OCR1A = st.exec_segment->cycles_per_tick;
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	  TIM2->ATRLR = st.exec_segment->cycles_per_tick - 1;
 	  /* Set the Autoreload value */
 #ifndef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING        
@@ -701,7 +701,7 @@ ISR(TIMER1_COMPA_vect)
 // This interrupt is enabled by ISR_TIMER1_COMPAREA when it sets the motor port bits to execute
 // a step. This ISR resets the motor port after a short period (settings.pulse_microseconds)
 // completing one step cycle.
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 void TIM3_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void TIM3_IRQHandler(void)
 #endif
@@ -709,7 +709,7 @@ void TIM3_IRQHandler(void)
 ISR(TIMER0_OVF_vect)
 #endif
 {
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 #ifdef STEP_PULSE_DELAY
 	if ((TIM3->SR & TIM_SR_CC1IF) != 0) // check interrupt source
 	{
@@ -785,7 +785,7 @@ void st_reset()
   STEP_PORT = (STEP_PORT & ~STEP_MASK) | step_port_invert_mask;
   DIRECTION_PORT = (DIRECTION_PORT & ~DIRECTION_MASK) | dir_port_invert_mask;
 #endif
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   while(TIM3->CTLR1 & TIM_CEN); // wait for end of tim3 work to prevent cutoff last step pulse
 //#ifdef STEP_PULSE_DELAY
 //	TIM3->DIER &= ~TIM_DIER_CC1IE; //compare interrupt disable
@@ -805,7 +805,7 @@ void st_reset()
 void stepper_init()
 {
   // Configure step and direction interface pins
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_STEPPERS_DISABLE_PORT, ENABLE);
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -1359,7 +1359,7 @@ float st_get_realtime_rate()
   }
   return 0.0f;
 }
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 void TIM_Configuration(TIM_TypeDef* TIMER, u16 Period, u16 Prescaler, u8 PP)
 {
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;

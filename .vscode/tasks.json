@@ -1,0 +1,91 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build GRBL CH32V307",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "${workspaceFolder}\\scripts\\build.bat"
+      ],
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+): (warning|error): (.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Clean GRBL CH32V307",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "${workspaceFolder}\\scripts\\clean.bat"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "same"
+      }
+    },
+    {
+      "label": "Rebuild GRBL CH32V307",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "${workspaceFolder}\\scripts\\rebuild.bat"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "same"
+      }
+    },
+    {
+      "label": "Upload GRBL CH32V307 (WCH-Link)",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "${workspaceFolder}\\scripts\\upload.bat"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Generate .clangd",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "${workspaceFolder}\\scripts\\make_clangd.bat"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "same"
+      }
+    }
+  ]
+}

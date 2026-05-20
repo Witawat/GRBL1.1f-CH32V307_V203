@@ -20,7 +20,7 @@
 
 #ifndef eeprom_h
 #define eeprom_h
-#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 void eeprom_init();
 #endif
 unsigned char eeprom_get_char(unsigned int addr);

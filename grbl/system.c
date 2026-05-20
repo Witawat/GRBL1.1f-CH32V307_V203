@@ -32,7 +32,7 @@ void system_init()
   CONTROL_PCMSK |= CONTROL_MASK;  // Enable specific pins of the Pin Change Interrupt
   PCICR |= (1 << CONTROL_INT);   // Enable Pin Change Interrupt
 #endif
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   GPIO_InitTypeDef GPIO_InitStructure;
   RCC_APB2PeriphClockCmd(RCC_CONTROL_PORT | RCC_APB2Periph_AFIO, ENABLE);
 // --- YSV 22-06-2018
@@ -85,7 +85,7 @@ uint8_t system_control_get_state()
   uint8_t pin = (CONTROL_PIN & CONTROL_MASK);
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   uint16_t pin= GPIO_ReadInputData(CONTROL_PIN_PORT);
 #endif
   #ifdef INVERT_CONTROL_PIN_MASK
@@ -127,7 +127,7 @@ ISR(CONTROL_INT_vect)
   }
 }
 #endif
-#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 void EXTI9_5_IRQHandler(void)
 {
     EXTI_ClearITPendingBit((1 << CONTROL_RESET_BIT) | (1 << CONTROL_FEED_HOLD_BIT) | (1 << CONTROL_CYCLE_START_BIT) | (1 << CONTROL_SAFETY_DOOR_BIT));
@@ -446,7 +446,7 @@ void system_set_exec_state_flag(uint8_t mask) {
   SREG = sreg;
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   __disable_irq();
   sys_rt_exec_state |= (mask);
   __enable_irq();
@@ -461,7 +461,7 @@ void system_clear_exec_state_flag(uint8_t mask) {
   SREG = sreg;
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   __disable_irq();
   sys_rt_exec_state &= ~(mask);
   __enable_irq();
@@ -476,7 +476,7 @@ void system_set_exec_alarm(uint8_t code) {
   SREG = sreg;
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   __disable_irq();
   sys_rt_exec_alarm = (code);
   __enable_irq();
@@ -491,7 +491,7 @@ void system_clear_exec_alarm() {
   SREG = sreg;
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   __disable_irq();
   sys_rt_exec_alarm = 0;
   __enable_irq();
@@ -506,7 +506,7 @@ void system_set_exec_motion_override_flag(uint8_t mask) {
   SREG = sreg;
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   __disable_irq();
   sys_rt_exec_motion_override |= (mask);
   __enable_irq();
@@ -521,7 +521,7 @@ void system_set_exec_accessory_override_flag(uint8_t mask) {
   SREG = sreg;
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   __disable_irq();
   sys_rt_exec_accessory_override |= (mask);
   __enable_irq();
@@ -536,7 +536,7 @@ void system_clear_exec_motion_overrides() {
   SREG = sreg;
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   __disable_irq();
   sys_rt_exec_motion_override = 0;
   __enable_irq();
@@ -551,7 +551,7 @@ void system_clear_exec_accessory_overrides() {
   SREG = sreg;
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   __disable_irq();
   sys_rt_exec_accessory_override = 0;
   __enable_irq();

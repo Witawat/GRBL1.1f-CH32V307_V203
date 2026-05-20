@@ -53,7 +53,7 @@ void limits_init()
     WDTCSR = (1<<WDP0); // Set time-out at ~32msec.
   #endif
 #endif
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_LIMIT_PORT | RCC_APB2Periph_AFIO, ENABLE);
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -118,7 +118,7 @@ void limits_disable()
   LIMIT_PCMSK &= ~LIMIT_MASK;  // Disable specific pins of the Pin Change Interrupt
   PCICR &= ~(1 << LIMIT_INT);  // Disable Pin Change Interrupt
 #endif
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   NVIC_DisableIRQ(EXTI15_10_IRQn);
 #endif
 }
@@ -130,11 +130,11 @@ void limits_disable()
 uint8_t limits_get_state()
 {
   uint8_t limit_state = 0;
-#if defined(AVRTARGET) || defined(CH32V307)
+#if defined(AVRTARGET) || defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 #if defined(AVRTARGET)
   uint8_t pin = (LIMIT_PIN & LIMIT_MASK);
 #endif
-#if defined(CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   uint16_t pin = GPIO_ReadInputData(LIMIT_PIN);
 #endif
   #ifdef INVERT_LIMIT_PIN_MASK
@@ -164,7 +164,7 @@ uint8_t limits_get_state()
 // special pinout for an e-stop, but it is generally recommended to just directly connect
 // your e-stop switch to the Arduino reset pin, since it is the most correct way to do this.
 #ifndef ENABLE_SOFTWARE_DEBOUNCE
-#if defined(AVRTARGET) || defined (CH32V307)
+#if defined(AVRTARGET) || defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 #if defined(AVRTARGET) 
 ISR(LIMIT_INT_vect) // DEFAULT: Limit pin change interrupt process.
 #else
@@ -172,7 +172,7 @@ void EXTI15_10_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")))
 void EXTI15_10_IRQHandler(void)
 #endif
 {
-#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	if (EXTI_GetITStatus(1 << X_LIMIT_BIT) != RESET)
 	{
 		EXTI_ClearITPendingBit(1 << X_LIMIT_BIT);

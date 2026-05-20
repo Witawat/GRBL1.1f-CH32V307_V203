@@ -40,7 +40,7 @@ uint8_t spindle_get_state();
 // Immediately sets spindle running state with direction and spindle rpm via PWM, if enabled.
 // Called by spindle_sync() after sync and parking motion/spindle stop override during restore.
 #ifdef VARIABLE_SPINDLE
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 #define SPINDLE_PWM_TYPE    uint16_t
 #else
 #define SPINDLE_PWM_TYPE    uint8_t

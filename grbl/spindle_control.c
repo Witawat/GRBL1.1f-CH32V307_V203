@@ -56,7 +56,7 @@ void spindle_init()
   #endif
 #endif
 
-#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_SPINDLE_ENABLE_PORT, ENABLE); // there is no RCC_SPINDLE_DIRECTION_PORT defined!
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -124,7 +124,7 @@ uint8_t spindle_get_state()
   pin = SPINDLE_DIRECTION_PORT;
     if (SPINDLE_TCCRA_REGISTER & (1<<SPINDLE_COMB_BIT)) 
 #endif
-#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
       pin = GPIO_ReadInputData(SPINDLE_DIRECTION_PORT);
 #endif
      {
@@ -144,8 +144,7 @@ uint8_t spindle_get_state()
 		}
 	#endif
 #endif
-
-#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   pin = GPIO_ReadInputData(SPINDLE_ENABLE_PORT);
 	#ifdef USE_SPINDLE_ENABLE_PIN
 		#ifdef INVERT_SPINDLE_ENABLE_PIN
@@ -189,8 +188,7 @@ void spindle_stop()
     #endif
 #endif
 #endif
-
-#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	#ifdef VARIABLE_SPINDLE
     TIM_CtrlPWMOutputs(TIM1, DISABLE);
 	#endif
@@ -213,7 +211,7 @@ void spindle_stop()
 #ifdef AVRTARGET
 		SPINDLE_OCR_REGISTER = pwm_value; // Set PWM output level.
 #endif
-#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 		TIM1->CH1CVR = pwm_value;
 #endif
 		#ifdef SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED
@@ -223,7 +221,7 @@ void spindle_stop()
 				#ifdef AVRTARGET
 					SPINDLE_TCCRA_REGISTER |= (1<<SPINDLE_COMB_BIT); // Ensure PWM output is enabled.
 				#endif
-				#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 						TIM_CtrlPWMOutputs(TIM1, ENABLE);
 				#endif
 				#ifdef USE_SPINDLE_ENABLE_PIN
@@ -239,14 +237,14 @@ void spindle_stop()
 			#ifdef AVRTARGET
 				SPINDLE_TCCRA_REGISTER &= ~(1 << SPINDLE_COMB_BIT); // Disable PWM. Output voltage is zero.
 			#endif
-			#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 				TIM_CtrlPWMOutputs(TIM1, DISABLE);
 			#endif
 			} else {
 			#ifdef AVRTARGET
       SPINDLE_TCCRA_REGISTER |= (1<<SPINDLE_COMB_BIT); // Ensure PWM output is enabled.
 			#endif
-			#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
       TIM_CtrlPWMOutputs(TIM1, ENABLE);
 			#endif
 			}
@@ -381,8 +379,7 @@ void spindle_stop()
       #endif    
 	#endif
 	#endif
-
-	#if defined (CH32V307)
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 #if (defined(USE_SPINDLE_ENABLE_PIN) && \
         !defined(SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED)) || !defined(VARIABLE_SPINDLE)
 	  #ifdef INVERT_SPINDLE_ENABLE_PIN

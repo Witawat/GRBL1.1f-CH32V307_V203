@@ -21,7 +21,7 @@
 
 #include "grbl.h"
 
-#if !defined(CH32V307)
+#if !defined(CH32V307) && !defined(CH32V203_RBT6_3AXIS)
 #define RX_RING_BUFFER (RX_BUFFER_SIZE+1)
 #define TX_RING_BUFFER (TX_BUFFER_SIZE+1)
 #else
@@ -93,7 +93,7 @@ void serial_init()
 void serial_write(uint8_t data) {
   // Calculate next head
   uint8_t next_head = serial_tx_buffer_head + 1;
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
     #ifndef USEUSB
     while(USART_GetFlagStatus(USART2, USART_FLAG_TC) == RESET);
     USART_SendData(USART2, data);
@@ -163,7 +163,7 @@ ISR(SERIAL_RX)
   uint8_t next_head;
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
     #ifdef USEUSB
 void OnUsbDataRx(uint8_t* dataIn, uint8_t length)
 {
@@ -242,7 +242,7 @@ void USART2_IRQHandler (void)
       }
   }
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
    #ifndef USEUSB
         //USART1->SR &= ~USART_FLAG_RXNE;	          // clear interrupt
     #else

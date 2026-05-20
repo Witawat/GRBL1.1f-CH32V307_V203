@@ -323,7 +323,130 @@
   //	14 PROBE		                                Z_LIMIT_BIT
   //	15 STEPPERS_DISABLE_BIT							A_LIMIT_BIT
 
+#endif // ABC_AXIS_EXAMPLE
+
+
+// ======================================================================================
+// CH32V203RBT6_3AXIS - PIN MAP FOR CH32V203RBT6 (LQFP64, 128K Flash, 64K RAM)
+// Standard 3-axis CNC (X, Y, Z only) - NO GPIOE PORT (not available on LQFP64)
+// ======================================================================================
+#ifdef CH32V203_RBT6_3AXIS
+
+  // --- STEPPER MOTOR PINS (GPIOB) ---
+  // All step and direction pins on GPIOB for atomic port writes
+  // NOTE: PB3 & PB4 need JTAG disable (done in system_init)
+#define STEP_PORT       GPIOB
+#define RCC_STEP_PORT   RCC_APB2Periph_GPIOB
+#define X_STEP_BIT      0     // PB0
+#define Y_STEP_BIT      3     // PB3 (JTAG remap needed)
+#define Z_STEP_BIT      6     // PB6
+#define STEP_MASK       ((1<<X_STEP_BIT)|(1<<Y_STEP_BIT)|(1<<Z_STEP_BIT))
+
+#define DIRECTION_PORT      GPIOB
+#define RCC_DIRECTION_PORT   RCC_APB2Periph_GPIOB
+#define X_DIRECTION_BIT   1     // PB1
+#define Y_DIRECTION_BIT   5     // PB5
+#define Z_DIRECTION_BIT   7     // PB7
+#define DIRECTION_MASK    ((1<<X_DIRECTION_BIT)|(1<<Y_DIRECTION_BIT)|(1<<Z_DIRECTION_BIT))
+
+  // --- STEPPER ENABLE/DISABLE (GPIOB) ---
+#define STEPPERS_DISABLE_PORT   GPIOB
+#define RCC_STEPPERS_DISABLE_PORT RCC_APB2Periph_GPIOB
+#define STEPPERS_DISABLE_BIT    8     // PB8
+#define STEPPERS_DISABLE_MASK   (1<<STEPPERS_DISABLE_BIT)
+#define SetStepperDisableBit() GPIO_SetBits(STEPPERS_DISABLE_PORT,STEPPERS_DISABLE_MASK)
+#define ResetStepperDisableBit() GPIO_ResetBits(STEPPERS_DISABLE_PORT,STEPPERS_DISABLE_MASK)
+
+
+  // --- LIMIT SWITCHES (GPIOC PC10-PC12, EXTI15_10 SAME IRQ AS ORIGINAL) ---
+#define LIMIT_PIN        GPIOC
+#define LIMIT_PORT       GPIOC
+#define RCC_LIMIT_PORT   RCC_APB2Periph_GPIOC
+#define GPIO_LIMIT_PORT  GPIO_PortSourceGPIOC
+#define X_LIMIT_BIT      10    // PC10
+#define Y_LIMIT_BIT      11    // PC11
+#define Z_LIMIT_BIT      12    // PC12
+#define LIMIT_MASK       ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT))
+
+
+  // --- SPINDLE CONTROL (GPIOD PD0-PD1, PWM on PA8 TIM1_CH1) ---
+#define SPINDLE_ENABLE_PORT   GPIOD
+#define RCC_SPINDLE_ENABLE_PORT RCC_APB2Periph_GPIOD
+#define SPINDLE_ENABLE_BIT    0     // PD0
+#ifndef USE_SPINDLE_DIR_AS_ENABLE_PIN
+#define SPINDLE_DIRECTION_DDR   GPIOD
+#define SPINDLE_DIRECTION_PORT  GPIOD
+#define SPINDLE_DIRECTION_BIT   1     // PD1
 #endif
+#define SetSpindleEnablebit()       GPIO_WriteBit(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT, Bit_SET)
+#define ResetSpindleEnablebit()     GPIO_WriteBit(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT, Bit_RESET)
+#define SetSpindleDirectionBit()    GPIO_WriteBit(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT,Bit_SET)
+#define ResetSpindleDirectionBit()  GPIO_WriteBit(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT,Bit_RESET)
+
+
+  // --- COOLANT CONTROL (GPIOB) ---
+#define COOLANT_FLOOD_PORT            GPIOB
+#define RCC_COOLANT_FLOOD_PORT        RCC_APB2Periph_GPIOB
+#define COOLANT_FLOOD_BIT             12    // PB12
+#define COOLANT_MIST_PORT             GPIOB
+#define RCC_COOLANT_MIST_PORT         RCC_APB2Periph_GPIOB
+#define COOLANT_MIST_BIT              13    // PB13
+
+
+  // --- CONTROL INPUTS (GPIOA PA5-PA9, EXTI9_5 IRQ) ---
+  // All on GPIOA, EXTI lines 5-9 share EXTI9_5_IRQn
+#define CONTROL_PIN_PORT              GPIOA
+#define CONTROL_PORT                  GPIOA
+#define RCC_CONTROL_PORT              RCC_APB2Periph_GPIOA
+#define GPIO_CONTROL_PORT             GPIO_PortSourceGPIOA
+#define CONTROL_RESET_BIT             5     // PA5
+#define CONTROL_FEED_HOLD_BIT         6     // PA6
+#define CONTROL_CYCLE_START_BIT       7     // PA7
+#define CONTROL_SAFETY_DOOR_BIT       9     // PA9
+#define CONTROL_MASK                 ((1<<CONTROL_RESET_BIT)|(1<<CONTROL_FEED_HOLD_BIT)|(1<<CONTROL_CYCLE_START_BIT)|(1<<CONTROL_SAFETY_DOOR_BIT))
+
+
+  // --- PROBE INPUT (GPIOB) ---
+#define PROBE_PORT                    GPIOB
+#define RCC_PROBE_PORT                RCC_APB2Periph_GPIOB
+#define PROBE_BIT                     14    // PB14
+#define PROBE_MASK                    (1<<PROBE_BIT)
+
+
+  // --- VARIABLE SPINDLE PWM (GPIOA PA8, TIM1_CH1) ---
+#ifdef VARIABLE_SPINDLE
+#define SPINDLE_PWM_FREQUENCY       10000                   // Hz
+#define SPINDLE_PWM_DDR	            GPIOA
+#define SPINDLE_PWM_PORT            GPIOA
+#define RCC_SPINDLE_PWM_PORT        RCC_APB2Periph_GPIOA
+#define SPINDLE_PWM_BIT	            8     // PA8 (TIM1_CH1)
+#endif // VARIABLE_SPINDLE
+#define SPINDLE_PWM_MAX_VALUE       (1000000 / SPINDLE_PWM_FREQUENCY)
+#ifndef SPINDLE_PWM_MIN_VALUE
+#define SPINDLE_PWM_MIN_VALUE   1
+#endif
+#define SPINDLE_PWM_OFF_VALUE     0
+#define SPINDLE_PWM_RANGE         (SPINDLE_PWM_MAX_VALUE-SPINDLE_PWM_MIN_VALUE)
+
+  //	Port B                     	Port C				Port A					Port D
+  //	0  X_STEP_BIT															SPINDLE_ENABLE_BIT
+  //	1  X_DIRECTION_BIT													SPINDLE_DIRECTION_BIT
+  //	2  (free)												SERIAL_TX (USART2)
+  //	3  Y_STEP_BIT (JTAG remap)							SERIAL_RX (USART2)
+  //	4  (free, JTAG remap)
+  //	5  Y_DIRECTION_BIT									CONTROL_RESET_BIT
+  //	6  Z_STEP_BIT										CONTROL_FEED_HOLD_BIT
+  //	7  Z_DIRECTION_BIT									CONTROL_CYCLE_START_BIT
+  //	8  STEPPERS_DISABLE_BIT							SPINDLE_PWM_BIT (TIM1_CH1)
+  //	9  (free)											CONTROL_SAFETY_DOOR_BIT
+  //	10 (free)					X_LIMIT_BIT
+  //	11 (free)					Y_LIMIT_BIT
+  //	12 COOLANT_FLOOD_BIT		Z_LIMIT_BIT
+  //	13 COOLANT_MIST_BIT
+  //	14 PROBE_BIT
+  //	15 (free)
+
+#endif // CH32V203_RBT6_3AXIS
 
 /*
 #ifdef CPU_MAP_CUSTOM_PROC

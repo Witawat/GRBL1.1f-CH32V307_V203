@@ -35,7 +35,7 @@ void probe_init()
     PROBE_PORT |= PROBE_MASK;    // Enable internal pull-up resistors. Normal high operation.
   #endif
 #endif
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_PROBE_PORT, ENABLE);
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -69,7 +69,7 @@ uint8_t probe_get_state()
 	return((PROBE_PIN & PROBE_MASK) ^ probe_invert_mask); 
 #endif
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	return ((GPIO_ReadInputData(PROBE_PORT) & PROBE_MASK) ^ probe_invert_mask) != 0;
 #endif
 }

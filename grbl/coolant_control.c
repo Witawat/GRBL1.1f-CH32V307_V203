@@ -28,7 +28,7 @@ void coolant_init()
     COOLANT_MIST_DDR |= (1 << COOLANT_MIST_BIT);
   #endif
 #endif
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_COOLANT_FLOOD_PORT, ENABLE);
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -50,7 +50,7 @@ void coolant_init()
 uint8_t coolant_get_state()
 {
   uint8_t cl_state = COOLANT_STATE_DISABLE;
-#if defined(AVRTARGET) || defined(CH32V307)
+#if defined(AVRTARGET) || defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   #ifdef INVERT_COOLANT_FLOOD_PIN
     if (bit_isfalse(
     #ifdef AVRTARGET
@@ -100,7 +100,7 @@ uint8_t coolant_get_state()
 // an interrupt-level. No report flag set, but only called by routines that don't need it.
 void coolant_stop()
 {
-#if defined(AVRTARGET) || defined(CH32V307)
+#if defined(AVRTARGET) || defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
   #ifdef INVERT_COOLANT_FLOOD_PIN
 #ifdef AVRTARGET
     COOLANT_FLOOD_PORT |= (1 << COOLANT_FLOOD_BIT);
@@ -147,7 +147,7 @@ void coolant_set_state(uint8_t mode)
   
   } else {
   
-#if defined(AVRTARGET) || defined(CH32V307)
+#if defined(AVRTARGET) || defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	  if (mode & COOLANT_FLOOD_ENABLE) {
       #ifdef INVERT_COOLANT_FLOOD_PIN
 #ifdef AVRTARGET

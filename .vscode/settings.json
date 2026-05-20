@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "*.h": "c",
+        "*.S": "asm"
+    },
+    "C_Cpp.errorSquiggles": "enabled",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+}

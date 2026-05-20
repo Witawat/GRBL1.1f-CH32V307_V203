@@ -62,7 +62,7 @@
 #define INCH_PER_MM (0.0393701f)
 #define TICKS_PER_MICROSECOND (F_CPU/1000000)
 
-#ifdef CH32V307
+#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 #define F_CPU SystemCoreClock
 #endif
 #define DELAY_MODE_DWELL       0
