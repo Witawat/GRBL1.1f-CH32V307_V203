@@ -38,8 +38,10 @@ void system_init()
 // --- YSV 22-06-2018
 #ifdef ABC_AXIS
   // Full SWJ Disabled (JTAG-DP + SW-DP)
-  // SWD will work only with "flash under reset" option
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE); // to enable PA15, PB3, PB4, PA13, PA14 pins
+#elif defined(CH32V203_RBT6_3AXIS)
+  // V20x: GPIO_Remap_SWJ_Disable = JTAG disable only (no _JTAGDisable variant)
+  GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE); // to enable PA15, PB3, PB4 pins
 #else
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE); // to enable PA15, PB3, PB4 pins
 #endif

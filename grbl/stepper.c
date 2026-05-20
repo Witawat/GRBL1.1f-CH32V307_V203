@@ -1375,7 +1375,11 @@ void TIM_Configuration(TIM_TypeDef* TIMER, u16 Period, u16 Prescaler, u8 PP)
 	TIM_ITConfig(TIMER, TIM_IT_Update, ENABLE);
 	TIM_Cmd(TIMER, ENABLE);
 
+#if defined(CH32V203_RBT6_3AXIS)
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);  // V20x: 1=enable nesting
+#else
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+#endif
 	if (TIMER == TIM2) { NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn; }
 	else if (TIMER == TIM3) { NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn; }
 	else if (TIMER == TIM4) { NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn; }

@@ -46,12 +46,15 @@
 #endif
 
 #if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
-unsigned char EE_Buffer[0x400];
+
+// Flash page size: V307 = 4K, V203 = 1K
+#ifdef CH32V203_RBT6_3AXIS
+  #define PAGE_SIZE                  1024
+  unsigned char EE_Buffer[1024];
+#else
+  #define PAGE_SIZE                  4096
+  unsigned char EE_Buffer[4096];
 #endif
-
-#if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
-
-#define PAGE_SIZE                  4096
 #define EEPROM_START_ADDRESS            ((uint32_t)0x0800F000) /* Start from 60K */
 
 

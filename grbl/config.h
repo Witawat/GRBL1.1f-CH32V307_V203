@@ -35,9 +35,22 @@
 // NOTE: OEMs can avoid the need to maintain/update the defaults.h and cpu_map.h files and use only
 // one configuration file by placing their specific defaults and pin map at the bottom of this file.
 // If doing so, simply comment out these two defines and see instructions below.
-//#define DEFAULTS_GENERIC
-#define ABC_AXIS_EXAMPLE        // Original CH32V307 6-axis map
-//#define CH32V203_RBT6_3AXIS       // CH32V203RBT6 LQFP64 3-axis CNC (use for V203 migration)
+//
+// DEFAULTS_GENERIC: used for 3-axis targets (CH32V203_RBT6_3AXIS, etc.)
+// ABC_AXIS_EXAMPLE:  used for 6-axis target (CH32V307) — provides its own defaults
+//
+#if defined(CH32V203_RBT6_3AXIS)
+  #define DEFAULTS_GENERIC
+#elif !defined(ABC_AXIS_EXAMPLE)
+  #define DEFAULTS_GENERIC
+#endif
+
+#ifndef ABC_AXIS_EXAMPLE
+  //#define ABC_AXIS_EXAMPLE        // Original CH32V307 6-axis map
+#endif
+#ifndef CH32V203_RBT6_3AXIS
+  //#define CH32V203_RBT6_3AXIS       // CH32V203RBT6 LQFP64 3-axis CNC (use for V203 migration)
+#endif
 
 #ifdef AVRTARGET
 #define CPU_MAP_ATMEGA328P // Arduino Uno CPU
