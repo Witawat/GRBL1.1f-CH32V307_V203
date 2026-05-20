@@ -111,8 +111,15 @@ call :ADD_INC "mcu\CH32V203RBT6\sdk\Peripheral\inc"
 echo.
 echo     # Preprocessor Defines
 echo     - "-D_DEBUG"
+echo     # -- CH32V307 defines --
 echo     - "-DCH32V30x"
 echo     - "-DCH32V307"
+echo     - "-DABC_AXIS_EXAMPLE"
+echo     - "-DAB_AXIS"
+echo     # -- CH32V203RBT6 defines --
+echo     - "-DCH32V20x"
+echo     - "-DCH32V203"
+echo     - "-DCH32V203_RBT6_3AXIS"
 echo.
 echo     # Suppress false-positive warnings for embedded C
 echo     - "-Wno-implicit-function-declaration"
