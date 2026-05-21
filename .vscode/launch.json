@@ -1,0 +1,87 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "CH32V307 Debug (GCC8)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/output/GRBL_CH32V307.elf",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [
+        {
+          "name": "PATH",
+          "value": "C:/MounRiver/MounRiver_Studio2/resources/app/resources/win32/components/WCH/Toolchain/RISC-V Embedded GCC/bin;${env:PATH}"
+        }
+      ],
+      "externalConsole": true,
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:/MounRiver/MounRiver_Studio2/resources/app/resources/win32/components/WCH/Toolchain/RISC-V Embedded GCC/bin/riscv-none-embed-gdb.exe",
+      "setupCommands": [
+        {
+          "description": "Set architecture",
+          "text": "set architecture riscv:rv32",
+          "ignoreFailures": false
+        },
+        {
+          "description": "Configure debugging",
+          "text": "set mem inaccessible-by-default off",
+          "ignoreFailures": false
+        },
+        {
+          "description": "Set disassembler options",
+          "text": "set disassembler-options xw",
+          "ignoreFailures": false
+        }
+      ],
+      "preLaunchTask": "Build GRBL CH32V307",
+      "presentation": {
+        "hidden": false,
+        "group": "",
+        "order": 1
+      }
+    },
+    {
+      "name": "CH32V203RBT6 Debug (GCC12)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/output/GRBL_CH32V203.elf",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [
+        {
+          "name": "PATH",
+          "value": "C:/MounRiver/MounRiver_Studio2/resources/app/resources/win32/components/WCH/Toolchain/RISC-V Embedded GCC12/bin;${env:PATH}"
+        }
+      ],
+      "externalConsole": true,
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:/MounRiver/MounRiver_Studio2/resources/app/resources/win32/components/WCH/Toolchain/RISC-V Embedded GCC12/bin/riscv-wch-elf-gdb.exe",
+      "setupCommands": [
+        {
+          "description": "Set architecture",
+          "text": "set architecture riscv:rv32",
+          "ignoreFailures": false
+        },
+        {
+          "description": "Configure debugging",
+          "text": "set mem inaccessible-by-default off",
+          "ignoreFailures": false
+        },
+        {
+          "description": "Set disassembler options",
+          "text": "set disassembler-options xw",
+          "ignoreFailures": false
+        }
+      ],
+      "preLaunchTask": "Build GRBL CH32V203",
+      "presentation": {
+        "hidden": false,
+        "group": "",
+        "order": 1
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "configurations": [
     {
-      "name": "MounRiver Studio Build",
+      "name": "CH32V307 (6-Axis, GCC8)",
       "includePath": [
         "${workspaceFolder}/grbl",
         "${workspaceFolder}/mcu/CH32V307",
@@ -16,8 +16,26 @@
         "ABC_AXIS_EXAMPLE",
         "AB_AXIS"
       ],
-      "intelliSenseMode": "linux-gcc-arm",
+      "intelliSenseMode": "linux-gcc-x64",
       "compilerPath": "C:/MounRiver/MounRiver_Studio2/resources/app/resources/win32/components/WCH/Toolchain/RISC-V Embedded GCC/bin/riscv-none-embed-gcc.exe",
+      "cStandard": "gnu99",
+      "cppStandard": "gnu++11"
+    },
+    {
+      "name": "CH32V203RBT6 (3-Axis, GCC12)",
+      "includePath": [
+        "${workspaceFolder}/grbl",
+        "${workspaceFolder}/mcu/CH32V203RBT6",
+        "${workspaceFolder}/mcu/CH32V203RBT6/sdk/Core",
+        "${workspaceFolder}/mcu/CH32V203RBT6/sdk/Debug",
+        "${workspaceFolder}/mcu/CH32V203RBT6/sdk/Peripheral/inc"
+      ],
+      "defines": [
+        "_DEBUG",
+        "CH32V203_RBT6_3AXIS"
+      ],
+      "intelliSenseMode": "linux-gcc-x64",
+      "compilerPath": "C:/MounRiver/MounRiver_Studio2/resources/app/resources/win32/components/WCH/Toolchain/RISC-V Embedded GCC12/bin/riscv-wch-elf-gcc.exe",
       "cStandard": "gnu99",
       "cppStandard": "gnu++11"
     }
