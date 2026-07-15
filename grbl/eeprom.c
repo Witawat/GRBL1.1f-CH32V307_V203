@@ -47,8 +47,10 @@
 
 #if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 
-// Flash page size: V307 = 4K, V203 = 1K
+// Flash page size: V307 = 4KB (FLASH_ErasePage), V203(D8) = 256B (FLASH_ErasePage_Fast)
+// EE_Buffer size (PAGE_SIZE) must cover settings layout (0-1023 = 1KB)
 #ifdef CH32V203_RBT6_3AXIS
+  #define HW_ERASE_PAGE_SIZE          256
   #define PAGE_SIZE                  1024
   unsigned char EE_Buffer[1024];
 #else
@@ -65,6 +67,13 @@ void eeprom_flush()
 	uint16_t *pBuffer = (uint16_t *)EE_Buffer;
 	uint16_t nSize = PAGE_SIZE;
 
+#ifdef CH32V203_RBT6_3AXIS
+	/* D8 series: fast page erase 256 bytes per page, need multiple passes */
+	for (uint32_t offset = 0; offset < PAGE_SIZE; offset += HW_ERASE_PAGE_SIZE)
+	{
+		FLASH_ErasePage_Fast(EEPROM_START_ADDRESS + offset);
+	}
+#else
 	FLASH_Status FlashStatus = FLASH_COMPLETE;
 
 	/* Erase Page0 */
@@ -75,6 +84,7 @@ void eeprom_flush()
 	{
 		return;
 	}
+#endif
 
 	while (nSize > 0)
 	{

@@ -3,12 +3,10 @@
 ::  Board: CH32V203RBT6 LQFP64
 ::  Flash: 128K   RAM: 64K    Clock: 144MHz HSE
 ::
-::  NOTE: This is a PLACEHOLDER config.
-::  Before using, you must:
-::    1. Create mcu/CH32V203RBT6/ folder with V20x SDK files
-::    2. Copy grbl/cpu_map.h V203 pin map (CH32V203_RBT6_3AXIS section)
-::    3. Set TOOLCHAIN_CHOICE=2 for GCC12 (recommended for V203)
-::    4. Disable USB (USB_SOURCE empty) to save flash
+::  SDK: mcu/CH32V203RBT6/ — V20x SDK files ready
+::  Pin map: grbl/cpu_map.h — CH32V203_RBT6_3AXIS section ready
+::  Toolchain: TOOLCHAIN_CHOICE=2 (GCC12 riscv-wch-elf-)
+::  USB: Disabled (USB_SOURCE empty) — uses USART2 serial
 :: ============================================================
 set MCU_NAME=CH32V203RBT6
 set MCU_FOLDER=mcu\CH32V203RBT6

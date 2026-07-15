@@ -78,7 +78,7 @@
 | CONTROL_SAFETY_DOOR | PA9 | GPIOA | EXTI9, Active LOW |
 | SERIAL_TX | PA2 | GPIOA | USART2 AF |
 | SERIAL_RX | PA3 | GPIOA | USART2 Input |
-| LED | PA0 | GPIOA | Debug blink |
+| LED | PA0 | GPIOA | GPIO output (LedBlink() defined, not yet in main loop) |
 
 ---
 

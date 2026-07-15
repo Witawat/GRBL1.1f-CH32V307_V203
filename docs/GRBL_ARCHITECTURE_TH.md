@@ -896,8 +896,9 @@ typedef struct {
 
 **CH32V307/V203RBT6** ใช้ Flash แทน EEPROM:
 - `EEPROM_START_ADDRESS = 0x0800F000` — เริ่มที่ 60KB ใน Flash
-- `PAGE_SIZE = 4096` (V307) หรือ `1024` (V203)
-- `EE_Buffer[]` — buffer ใน RAM ขนาด 1 หน้า Flash
+- `PAGE_SIZE = 4096` (V307) หรือ `1024` (V203) — ขนาด EE_Buffer
+- `HW_ERASE_PAGE_SIZE = 256` (V203 D8 series) — ขนาดหน้า Flash จริงสำหรับ `FLASH_ErasePage_Fast`
+- `EE_Buffer[]` — buffer ใน RAM สำหรับ settings
 
 #### การทำงานของ EEPROM emulation:
 
@@ -905,7 +906,9 @@ typedef struct {
    - ถ้า version ไม่ตรง → ล้าง EE_Buffer เป็น 0xFF
 2. **Read**: `EE_Buffer[addr]` — อ่านจาก RAM
 3. **Write**: `EE_Buffer[addr] = value` — เขียนใน RAM
-4. **Flush**: ลบ Flash page → เขียนเฉพาะข้อมูลที่ไม่ใช่ 0xFFFF แบบ half-word
+4. **Flush**: ลบ Flash page(s) → เขียนเฉพาะข้อมูลที่ไม่ใช่ 0xFFFF แบบ half-word
+   - V307: `FLASH_ErasePage()` — ลบ 4KB ทีเดียว
+   - V203: `FLASH_ErasePage_Fast()` — ลบทีละ 256 bytes × 4 ครั้ง (รวม 1024 bytes)
 
 #### Checksum
 
@@ -1085,12 +1088,15 @@ limit_value = min(limit_value, fabsf(max_value[idx] / unit_vec[idx]))
 - **Probe**: GPIOB (PB15)
 
 ### 3. CH32V203_RBT6_3AXIS — CH32V203 (3-axis)
-- **Step/Direction**: GPIOB (PB0-PB5: X,Y,Z)
-- **Limits**: GPIOC (PC6-PC8: X,Y,Z)
-- **Control Pins**: GPIOA (PA0-PA3)
-- **Spindle**: GPIOA (PA8: PWM, PA11: Direction, PA12: Enable)
-- **Coolant**: GPIOD (PD0: Flood, PD1: Mist)
-- **Probe**: GPIOC (PC9)
+- **Step/Direction**: GPIOB (X: PB0=Step, PB1=Dir; Y: PB3=Step, PB5=Dir; Z: PB6=Step, PB7=Dir)
+- **Limits**: GPIOC (PC10: X, PC11: Y, PC12: Z) — EXTI15_10_IRQn
+- **Control Pins**: GPIOA (PA5: Reset, PA6: Feed Hold, PA7: Cycle Start, PA9: Safety Door) — EXTI9_5_IRQn
+- **Spindle**: GPIOA (PA8: PWM TIM1_CH1), GPIOD (PD0: Enable, PD1: Direction)
+- **Coolant**: GPIOB (PB12: Flood, PB13: Mist)
+- **Probe**: GPIOB (PB14)
+- **Stepper Disable**: GPIOB (PB8)
+- **Serial**: USART2 (PA2: TX, PA3: RX)
+- **LED**: GPIOA (PA0: optional, define LEDBLINK)
 
 ---
 
