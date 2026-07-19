@@ -139,17 +139,17 @@ void settings_restore(uint8_t restore_flag) {
   if (restore_flag & SETTINGS_RESTORE_STARTUP_LINES) {
     #if N_STARTUP_LINE > 0
       eeprom_put_char(EEPROM_ADDR_STARTUP_BLOCK, 0);
-      eeprom_put_char(EEPROM_ADDR_STARTUP_BLOCK+1, 0); // Checksum
+      eeprom_put_char(EEPROM_ADDR_STARTUP_BLOCK + LINE_BUFFER_SIZE, 0); // Checksum
     #endif
     #if N_STARTUP_LINE > 1
-      eeprom_put_char(EEPROM_ADDR_STARTUP_BLOCK+(LINE_BUFFER_SIZE+1), 0);
-      eeprom_put_char(EEPROM_ADDR_STARTUP_BLOCK+(LINE_BUFFER_SIZE+2), 0); // Checksum
+      eeprom_put_char(EEPROM_ADDR_STARTUP_BLOCK + (LINE_BUFFER_SIZE+1), 0);
+      eeprom_put_char(EEPROM_ADDR_STARTUP_BLOCK + (LINE_BUFFER_SIZE+1) + LINE_BUFFER_SIZE, 0); // Checksum
     #endif
   }
 
   if (restore_flag & SETTINGS_RESTORE_BUILD_INFO) {
     eeprom_put_char(EEPROM_ADDR_BUILD_INFO , 0);
-    eeprom_put_char(EEPROM_ADDR_BUILD_INFO+1 , 0); // Checksum
+    eeprom_put_char(EEPROM_ADDR_BUILD_INFO + LINE_BUFFER_SIZE, 0); // Checksum
   }
 }
 

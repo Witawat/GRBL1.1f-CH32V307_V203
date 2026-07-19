@@ -896,7 +896,7 @@ typedef struct {
 
 **CH32V307/V203RBT6** ใช้ Flash แทน EEPROM:
 - `EEPROM_START_ADDRESS = 0x0800F000` — เริ่มที่ 60KB ใน Flash
-- `PAGE_SIZE = 4096` (V307) หรือ `1024` (V203) — ขนาด EE_Buffer
+- `PAGE_SIZE = 4096` (V307) หรือ `2048` (V203) — ขนาด EE_Buffer
 - `HW_ERASE_PAGE_SIZE = 256` (V203 D8 series) — ขนาดหน้า Flash จริงสำหรับ `FLASH_ErasePage_Fast`
 - `EE_Buffer[]` — buffer ใน RAM สำหรับ settings
 
@@ -908,7 +908,7 @@ typedef struct {
 3. **Write**: `EE_Buffer[addr] = value` — เขียนใน RAM
 4. **Flush**: ลบ Flash page(s) → เขียนเฉพาะข้อมูลที่ไม่ใช่ 0xFFFF แบบ half-word
    - V307: `FLASH_ErasePage()` — ลบ 4KB ทีเดียว
-   - V203: `FLASH_ErasePage_Fast()` — ลบทีละ 256 bytes × 4 ครั้ง (รวม 1024 bytes)
+   - V203: `FLASH_ErasePage_Fast()` — ลบทีละ 256 bytes × 8 ครั้ง (รวม 2048 bytes)
 
 #### Checksum
 

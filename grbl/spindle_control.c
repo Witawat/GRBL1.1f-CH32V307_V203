@@ -58,7 +58,7 @@ void spindle_init()
 
 #if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
 	GPIO_InitTypeDef GPIO_InitStructure;
-	RCC_APB2PeriphClockCmd(RCC_SPINDLE_ENABLE_PORT, ENABLE); // there is no RCC_SPINDLE_DIRECTION_PORT defined!
+	RCC_APB2PeriphClockCmd(RCC_SPINDLE_ENABLE_PORT | RCC_SPINDLE_DIRECTION_PORT, ENABLE);
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_InitStructure.GPIO_Pin = 1 << SPINDLE_DIRECTION_BIT;

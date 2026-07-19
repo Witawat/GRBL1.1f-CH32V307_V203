@@ -40,8 +40,8 @@ void system_init()
   // Full SWJ Disabled (JTAG-DP + SW-DP)
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE); // to enable PA15, PB3, PB4, PA13, PA14 pins
 #elif defined(CH32V203_RBT6_3AXIS)
-  // V20x: GPIO_Remap_SWJ_Disable = JTAG disable only (no _JTAGDisable variant)
-  GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE); // to enable PA15, PB3, PB4 pins
+  // V20x: no GPIO_Remap_SWJ_JTAGDisable, write PCFR1 directly (JTAG=off, SWD=on)
+  AFIO->PCFR1 = (AFIO->PCFR1 & ~((uint32_t)0x07000000)) | ((uint32_t)0x02000000);
 #else
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE); // to enable PA15, PB3, PB4 pins
 #endif
@@ -130,6 +130,7 @@ ISR(CONTROL_INT_vect)
 }
 #endif
 #if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
+void EXTI9_5_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void EXTI9_5_IRQHandler(void)
 {
     EXTI_ClearITPendingBit((1 << CONTROL_RESET_BIT) | (1 << CONTROL_FEED_HOLD_BIT) | (1 << CONTROL_CYCLE_START_BIT) | (1 << CONTROL_SAFETY_DOOR_BIT));
@@ -155,8 +156,8 @@ void EXTI9_5_IRQHandler(void)
 			bit_true(sys_rt_exec_state, EXEC_SAFETY_DOOR);
 		}
 #endif
-		NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
-}
+	}
+  NVIC_ClearPendingIRQ(EXTI9_5_IRQn);
 }
 #endif
 

@@ -23,7 +23,6 @@
 
 
 #if defined(CH32V307) || defined(CH32V203_RBT6_3AXIS)
-typedef int bool;
 void TIM_Configuration(TIM_TypeDef* TIMER, u16 Period, u16 Prescaler, u8 PP);
 #endif
 

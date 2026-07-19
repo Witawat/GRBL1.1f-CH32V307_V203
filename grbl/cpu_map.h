@@ -377,8 +377,8 @@
 #define SPINDLE_DIRECTION_DDR   GPIOD
 #define SPINDLE_DIRECTION_PORT  GPIOD
 #define SPINDLE_DIRECTION_BIT   1     // PD1
+#define RCC_SPINDLE_DIRECTION_PORT RCC_APB2Periph_GPIOD
 #endif
-#define SetSpindleEnablebit()       GPIO_WriteBit(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT, Bit_SET)
 #define ResetSpindleEnablebit()     GPIO_WriteBit(SPINDLE_ENABLE_PORT, 1 << SPINDLE_ENABLE_BIT, Bit_RESET)
 #define SetSpindleDirectionBit()    GPIO_WriteBit(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT,Bit_SET)
 #define ResetSpindleDirectionBit()  GPIO_WriteBit(SPINDLE_DIRECTION_PORT, 1 << SPINDLE_DIRECTION_BIT,Bit_RESET)

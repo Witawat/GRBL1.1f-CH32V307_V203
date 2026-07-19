@@ -43,7 +43,7 @@ volatile uint8_t serial_tx_buffer_tail = 0;
 uint8_t serial_get_rx_buffer_available()
 {
   uint8_t rtail = serial_rx_buffer_tail; // Copy to limit multiple calls to volatile
-  if (serial_rx_buffer_head >= rtail) { return(RX_BUFFER_SIZE - (serial_rx_buffer_head-rtail)); }
+  if (serial_rx_buffer_head >= rtail) { return((RX_BUFFER_SIZE-1) - (serial_rx_buffer_head-rtail)); }
   return((rtail-serial_rx_buffer_head-1));
 }
 

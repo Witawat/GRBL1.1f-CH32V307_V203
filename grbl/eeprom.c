@@ -51,8 +51,8 @@
 // EE_Buffer size (PAGE_SIZE) must cover settings layout (0-1023 = 1KB)
 #ifdef CH32V203_RBT6_3AXIS
   #define HW_ERASE_PAGE_SIZE          256
-  #define PAGE_SIZE                  1024
-  unsigned char EE_Buffer[1024];
+  #define PAGE_SIZE                  2048
+  unsigned char EE_Buffer[2048];
 #else
   #define PAGE_SIZE                  4096
   unsigned char EE_Buffer[4096];
@@ -239,7 +239,7 @@ void eeprom_put_char( unsigned int addr, unsigned char new_value )
 void memcpy_to_eeprom_with_checksum(unsigned int destination, char *source, unsigned int size) {
   unsigned char checksum = 0;
   for(; size > 0; size--) { 
-    checksum = (checksum << 1) || (checksum >> 7);
+    checksum = (checksum << 1) | (checksum >> 7);
     checksum += *source;
     eeprom_put_char(destination++, *(source++)); 
   }
@@ -255,7 +255,7 @@ int memcpy_from_eeprom_with_checksum(char *destination, unsigned int source, uns
   unsigned char data, checksum = 0;
   for(; size > 0; size--) { 
     data = eeprom_get_char(source++);
-    checksum = (checksum << 1) || (checksum >> 7);
+    checksum = (checksum << 1) | (checksum >> 7);
     checksum += data;    
     *(destination++) = data; 
   }
